@@ -10,12 +10,17 @@ class EventHandler():
 
     def __init__(self, client):
         self.client = client
-        client.add_event_handler(self.handle_outgoing, events.NewMessage(outgoing=True, func=lambda e: not e.via_bot_id and not e.is_private and e.raw_text))
+        client.add_event_handler(self.handle_outgoing, events.NewMessage(outgoing=True, func=lambda e: not e.via_bot_id and e.raw_text))
 
     async def handle_outgoing(self, event):
         if event.raw_text == ".chain":
             await event.edit(self.chain.create_sentence())
             return
 
-        if not event.raw_text.startswith(invalid_starters):
+        if event.raw_text == ".stop":
+            await event.edit("Stopping RobotN000...")
+            await self.client.disconnect()
+            return
+
+        if not event.raw_text.startswith(invalid_starters) and not event.is_private:
             self.chain.add_string(event.raw_text)
