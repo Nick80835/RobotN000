@@ -22,5 +22,10 @@ class EventHandler():
             await self.client.disconnect()
             return
 
+        if event.raw_text == ".upload":
+            await event.respond(file="chain.json")
+            await event.delete()
+            return
+
         if not event.raw_text.startswith(invalid_starters) and not event.is_private:
             self.chain.add_string(event.raw_text)
