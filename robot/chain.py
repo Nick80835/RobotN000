@@ -17,12 +17,12 @@ class Chain:
             fh.write(self.chain.to_json())
 
     def add_string(self, string: str):
-        additional_chain = markovify.Text(string)
+        additional_chain = markovify.Text(string, retain_original=False)
 
         if self.chain:
             self.chain = markovify.combine([self.chain, additional_chain])
         else:
-            self.chain = markovify.Text(string)
+            self.chain = markovify.Text(string, retain_original=False)
 
         self.write_to_disk()
 
