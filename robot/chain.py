@@ -27,4 +27,4 @@ class Chain:
         self.write_to_disk()
 
     def create_sentence(self) -> str:
-        return self.chain.make_short_sentence(300)
+        return self.chain.make_short_sentence(300, min_chars=25)
